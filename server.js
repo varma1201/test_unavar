@@ -70,6 +70,7 @@ app.use(express.json());
 const corsOptions = {
   origin: [
     'http://localhost:3000',
+    'http://192.168.0.227:3000',
     'https://pragati-v1.netlify.app',
     'http://unavar-admin.s3-website.ap-south-1.amazonaws.com',
     'https://admin.unavar.com'

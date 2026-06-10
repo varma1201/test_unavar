@@ -6,7 +6,7 @@ import Proposal from "../models/proposalModel.js";
 import CompanyDetail from "../models/CompanyDetail.js";
 import BankDetail from "../models/BankDetailModel.js";
 import moment from "moment/moment.js";
-import { chromium } from "playwright";
+import { launchBrowser } from "../helper/browserHelper.js";
 import {
   SESClient,
   SendEmailCommand,
@@ -364,23 +364,11 @@ export const generateProposal = async (req, res) => {
       .replace(/{{micr_code}}/g, micr_code)
       .replace(/{{note}}/g, note);
 
-    // Launch Puppeteer using Chromium
-    browser = await chromium.launch({
-      headless: true,
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-accelerated-2d-canvas",
-        "--no-first-run",
-        "--no-zygote",
-        "--single-process", // Optional: If multiple processes are a problem
-        "--disable-gpu",
-      ],
-    });
+    // Launch browser using helper
+    browser = await launchBrowser();
 
     const page = await browser.newPage();
-    await page.setContent(dynamicContent, { waitUntil: "networkidle0" });
+    await page.setContent(dynamicContent, { waitUntil: "domcontentloaded" });
 
     // Generate PDF
     const pdfBuffer = await page.pdf({

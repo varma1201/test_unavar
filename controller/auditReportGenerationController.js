@@ -6,7 +6,7 @@ import AuditManagement from "../models/auditMangement.js";
 import Label from "../models/labelModel.js";
 import Question from "../models/questionSchema.js";
 import { fileURLToPath } from "url";
-import { chromium } from "playwright";
+import { launchBrowser } from "../helper/browserHelper.js";
 import { User } from "../models/usersModel.js";
 import {
   HYGIENE_RATING,
@@ -616,23 +616,11 @@ export const generateAuditReport = async (req, res) => {
         auditDetails.service === "TPA" ? SuggestionsImprovements : ""
       );
 
-    // Generate the PDF using Puppeteer
-    browser = await chromium.launch({
-      headless: true,
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-accelerated-2d-canvas",
-        "--no-first-run",
-        "--no-zygote",
-        "--single-process", // Optional: If multiple processes are a problem
-        "--disable-gpu",
-      ],
-    });
+    // Launch browser using helper
+    browser = await launchBrowser();
 
     const page = await browser.newPage();
-    await page.setContent(htmlTemplate, { waitUntil: "load" });
+    await page.setContent(htmlTemplate, { waitUntil: "domcontentloaded" });
 
     const pdfBuffer = await page.pdf({
       format: "A4",
