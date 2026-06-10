@@ -4,7 +4,7 @@ import path from "path";
 import nodemailer from "nodemailer";
 import moment from "moment";
 import Agreement from "../models/agreementModel.js"; // Ensure your model is properly named and imported
-import { launchBrowser } from "../helper/browserHelper.js";
+import { chromium } from "playwright";
 import {
   SESClient,
   SendEmailCommand,
@@ -85,13 +85,25 @@ export const generateagreement = async (req, res) => {
       .replace(/{{service}}/g, service)
       .replace(/{{period}}/g, period);
 
-    // Launch browser using helper
-    browser = await launchBrowser();
+    // Launch Puppeteer using Chromium
+    browser = await chromium.launch({
+      headless: true,
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-accelerated-2d-canvas",
+        "--no-first-run",
+        "--no-zygote",
+        "--single-process", // Optional: If multiple processes are a problem
+        "--disable-gpu",
+      ],
+    });
 
     const page = await browser.newPage();
     const baseUrl = `file://${__dirname}/templates/`;
     await page.setContent(dynamicContent, {
-      waitUntil: "networkidle",
+      waitUntil: "networkidle0",
       baseUrl,
     });
 

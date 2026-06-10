@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #ffffff;
+        font-size: 11px !important;
+        font-family: "Times New Roman" !important;
+        font-weight: normal !important;
+      }
+
+      .container {
+        background-color: #ffffff;
+        max-width: 100%;
+        margin: auto;
+      }
+
+      .container {
+        width: 793px;
+        /* A4 width in pixels */
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      table {
+        border-collapse: collapse !important;
+        font-size: 11px;
+      }
+
+      th {
+        background-color: #edf2f7;
+      }
+
+      th,
+      td {
+        padding: 0px 6px;
+      }
+
+      .header-info,
+      .bill-info,
+      .total-info,
+      .bank-info,
+      .declaration,
+      .signature {
+        margin-bottom: 6px;
+      }
+
+      .header-info h2,
+      .bill-info h2,
+      .bank-info h2,
+      .declaration h2 {
+        font-size: 13px;
+      }
+
+      .text-right p {
+        margin: 0;
+      }
+
+      .watermark {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        opacity: 0.1;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        pointer-events: none;
+      }
+
+      .watermark img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+
+      .signature-image img {
+        max-height: 80px;
+        max-width: 200px;
+        display: block;
+      }
+
+      /* New styles for bottom section to match the second image */
+      .bottom-section-left {
+        width: 70%;
+      }
+
+      .bottom-section-right {
+        width: 30%;
+      }
+
+      /* Reset everything to true normal */
+      body,
+      table,
+      td,
+      th,
+      p,
+      div,
+      span,
+      strong,
+      b {
+        font-family: "Times New Roman", Times, serif !important;
+        font-weight: 400 !important; /* 400 = Normal */
+        font-style: normal !important;
+      }
+
+      /* Reapply bold only where needed */
+      .font-bold,
+      .font-semibold {
+        font-weight: 700 !important;
+      }
+
+      .bank-details p {
+        margin: 2px 0;
+      }
+
+      .bank-details .label {
+        display: inline-block;
+        width: 140px;
+        font-weight: 700 !important; /* bold for labels */
+      }
+
+      .bank-details .value {
+        font-weight: 400 !important; /* normal for values */
+      }
+    </style>
+  </head>
+
+  <body class="p-4">
+    <div class="watermark">
+      <img src="data:image/png;base64,{{imageData}}" alt="Watermark" />
+    </div>
+
+    <div class="container mx-auto mt-4 border border-black">
+      <div
+        class="header-info flex justify-between items-center border-b p-2 border-gray-400"
+      >
+        <div>
+          <h2 class="text-lg font-bold" style="color: #13a6b8">
+            UNAVAR FOOD INSPECTION AND CERTIFICATION PRIVATE LIMITED
+          </h2>
+          <p style="color: #13a6b8">{{company_address}}</p>
+          <p style="color: #13a6b8">Tel: + 9894398096 | Email:{{email}}</p>
+          <p style="color: #13a6b8">GSTIN: {{gstin}} | PAN: {{pan}}</p>
+        </div>
+        <img
+          src="data:image/png;base64,{{imageData}}"
+          alt="Your Image Alt Text"
+          width="80"
+          height="80"
+        />
+      </div>
+
+      <h2 class="text-md font-bold my-2 text-center">TAX INVOICE</h2>
+      <div class="content-box">
+        <table
+          class="w-full text-sm table-fixed"
+          style="
+            border-left: none;
+            border-right: none;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+          "
+        >
+          <tbody style="font-size: 11px">
+            <tr>
+              <td class="border border-black px-2 font-bold w-32 border-l-0">
+                Invoice No:
+              </td>
+              <td
+                class="border border-black px-2 font-bold"
+                style="color: #3232ff"
+              >
+                {{invoice_number}}
+              </td>
+              <td class="border border-black px-2 font-bold w-48" rowspan="2">
+                Field Executive Name:
+              </td>
+              <td
+                class="border border-black px-2 border-r-0 font-bold"
+                rowspan="2"
+              >
+                {{field_executive_name}}
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-black px-2 font-bold border-l-0">
+                Invoice Date:
+              </td>
+              <td class="border border-black px-2">{{formattedDate}}</td>
+            </tr>
+            <tr>
+              <td class="border border-black px-2 font-bold border-l-0">
+                Order Ref No:
+              </td>
+              <td class="border border-black px-2">{{proposal_number}}</td>
+              <td class="border border-black px-2 font-bold" rowspan="2">
+                Team Leader Name:
+              </td>
+              <td
+                class="border border-black px-2 border-r-0 font-bold"
+                rowspan="2"
+              >
+                {{team_leader_name}}
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-black px-2 font-bold border-l-0">
+                Cust. P.O. No:
+              </td>
+              <td class="border border-black px-2">{{cust_po_no}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 class="text-md font-bold text-center">Bill to Party</h2>
+
+        <table
+          class="w-full text-sm table-fixed"
+          style="
+            border-left: none;
+            border-right: none;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+          "
+        >
+          <tbody style="font-size: 11px">
+            <tr>
+              <td class="border border-black px-2 font-bold border-l-0">
+                Name:
+              </td>
+              <td
+                colspan="5"
+                class="border border-black px-2 border-r-0 font-bold"
+                style="color: #3232ff"
+              >
+                {{fbo_name}}
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-black px- border-l-0 font-bold">
+                Address:
+              </td>
+              <td
+                colspan="5"
+                class="border border-black px-2 border-r-0 font-bold"
+                style="color: #3232ff"
+              >
+                {{address}}
+              </td>
+            </tr>
+            <table
+              class="w-full text-sm table-fixed"
+              style="
+                border-left: none;
+                border-right: none;
+                border-bottom: 1px solid black;
+              "
+            >
+              <tbody style="font-size: 11px">
+                <tr>
+                  <td
+                    class="border border-black border-l-0 border-t-0 px-2 font-bold"
+                    style="width: 10%"
+                  >
+                    GSTIN:
+                  </td>
+                  <td
+                    class="border border-black border-t-0 px-2 font-bold"
+                    style="width: 15%; color: #3232ff"
+                  >
+                    {{gst_number}}
+                  </td>
+                  <td
+                    class="border border-black border-t-0 px-2 font-bold"
+                    style="width: 25%"
+                  >
+                    State (Place of Supply):
+                  </td>
+                  <td
+                    class="border border-black border-t-0 px-2 font-bold"
+                    style="width: 10%; color: #3232ff"
+                  >
+                    {{place_of_supply}}
+                  </td>
+                  <td
+                    class="border border-black border-t-0 px-2 font-bold"
+                    style="width: 10%"
+                  >
+                    Pincode Code:
+                  </td>
+                  <td
+                    class="border border-black border-t-0 px-2 border-r-0 font-bold"
+                    style="width: 10%; color: #3232ff"
+                  >
+                    {{pincode}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </tbody>
+        </table>
+
+        <div class="flex justify-center">
+          <p class="font-bold">
+            <span class="font-bold">SAC:</span> 998399 (18%)
+          </p>
+        </div>
+
+        <table
+          class="w-full text-sm table-fixed"
+          style="
+            border-left: none;
+            border-right: none;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+          "
+        >
+          <tbody style="font-size: 11px">
+            <tr>
+              <td
+                class="px-2 border border-black text-center font-bold border-l-0"
+              >
+                Outlet Name
+              </td>
+              <td class="px-2 border border-black text-center font-bold">
+                Service
+              </td>
+              <td class="px-2 border border-black text-center font-bold">
+                Criteria
+              </td>
+              <td class="px-2 border border-black text-center font-bold">
+                Man Days
+              </td>
+              <td class="px-2 border border-black text-center font-bold">
+                Qty
+              </td>
+              <td class="px-2 border border-black text-center font-bold">
+                Unit Cost
+              </td>
+              <td
+                class="px-2 border border-black text-center font-bold border-r-0"
+              >
+                Amount
+              </td>
+            </tr>
+
+            {{outletItems}} {{auditorRow}}
+
+            <tr>
+              <td
+                class="px-2 border border-black font-bold text-center border-l-0"
+                colspan="5"
+              >
+                Total Invoice amount in words:
+              </td>
+              <td class="px-2 border border-black font-bold text-left">
+                Sub Total
+              </td>
+              <td
+                class="px-2 border border-black font-bold text-center border-r-0"
+              >
+                {{sub_total}}
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="px-2 border border-black font-bold text-center border-l-0 capitalize"
+                rowspan="2"
+                colspan="5"
+              >
+                {{totalInWords}}
+              </td>
+              <td
+                class="border border-black font-bold text-left align-top px-0"
+              >
+                <p style="border-bottom: 1px solid black; padding: 2px 6px">
+                  Add: IGST
+                </p>
+                <p style="border-bottom: 1px solid black; padding: 2px 6px">
+                  Add: CGST
+                </p>
+                <p style="padding: 2px 6px">Add: SGST</p>
+              </td>
+
+              <td
+                class="border border-black font-bold text-center border-r-0 align-top px-0"
+              >
+                {{tax}}
+              </td>
+            </tr>
+            <tr>
+              <td class="px-2 border border-black font-bold text-left">
+                Total Amount after Tax:
+              </td>
+              <td
+                class="px-2 border border-black font-bold text-center border-r-0"
+              >
+                {{overallTotal}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table
+          class="w-full text-sm table-fixed"
+          style="border-collapse: collapse"
+        >
+          <tbody style="font-size: 11px">
+            <tr>
+              <td
+                class="px-2 border border-black font-semibold text-left border-l-0 border-t-0 bottom-section-left"
+                style="
+                  vertical-align: top;
+                  padding-right: 0;
+                  border-right: 1px solid black;
+                "
+              >
+                <h2 class="text-md font-bold">Bank Account Details</h2>
+                <div
+                  class="bank-details"
+                  style="line-height: 1.4; margin-left: 6px"
+                >
+                  <p>
+                    <span class="label">Account Holder's Name:</span>
+                    <span class="value">{{account_holder_name}}</span>
+                  </p>
+                  <p>
+                    <span class="label">Bank Name:</span>
+                    <span class="value">{{bank_name}}</span>
+                  </p>
+                  <p>
+                    <span class="label">Bank Branch:</span>
+                    <span class="value">{{branch_name}}</span>
+                  </p>
+                  <p>
+                    <span class="label">IFSC Code:</span>
+                    <span class="value">{{ifsc_code}}</span>
+                  </p>
+                  <p>
+                    <span class="label">Account No:</span>
+                    <span class="value">{{account_number}}</span>
+                  </p>
+                  <p>
+                    <span class="label">MICR Code:</span>
+                    <span class="value">{{micr_code}}</span>
+                  </p>
+                </div>
+
+                <div
+                  class="mt-4"
+                  style="border-top: 1px solid black; padding-top: 6px"
+                >
+                  <h2 class="text-md font-bold">Declaration:</h2>
+                  <p>1. E& O.E,</p>
+                  <p>2. Please Quote Invoice no while making payment,</p>
+                  <p>
+                    3. Invoice Payable within 7 days failing which interest @2%
+                    per month will be charged.
+                  </p>
+                  <br />
+                  <p class="font-bold">Udyog Aadhar No. UDYAM-TN-02-0162170</p>
+                  <p>
+                    Payment to be made as per our agreed terms. Delay in payment
+                    to us beyond 45 days from the date of receipt of invoice
+                    would attract interest of 24% p.a. as per MSMED Act, 2006.
+                  </p>
+                </div>
+              </td>
+
+              <td
+                class="px-0 py-0 border border-black border-t-0 border-r-0 bottom-section-right"
+                style="vertical-align: top"
+              >
+                <table style="width: 100%; border-collapse: collapse">
+                  <tbody style="font-size: 11px">
+                    <tr>
+                      <td
+                        class="px-2 font-semibold text-left"
+                        style="width: 70%; border-right: 1px solid black"
+                      >
+                        GST on Reverse Charge
+                      </td>
+                      <td class="px-2 font-semibold text-center">0</td>
+                    </tr>
+
+                    <tr>
+                      <td
+                        colspan="2"
+                        class="px-2 font-semibold text-left"
+                        style="
+                          border-top: 1px solid black;
+                          height: 150px;
+                          vertical-align: top;
+                        "
+                      >
+                        Certified that the particulars given above are true and
+                        correct
+                        <div
+                          class="flex flex-col items-center justify-center p-1 border-black border-t-1"
+                        >
+                          <div class="text-center font-bold mb-1">
+                            For UNAVAR Food Inspection & Certification Pvt Ltd
+                          </div>
+                          <div
+                            class="signature-image flex items-center justify-center flex-1"
+                          >
+                            <img
+                              src="data:image/png;base64,{{invoiceSignatureImage}}"
+                              alt="Signature"
+                            />
+                          </div>
+                          <div class="text-center font-bold mt-1">
+                            Authorised signatory
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        colspan="2"
+                        class="px-2 font-semibold text-left"
+                        style="
+                          border-top: 1px solid black;
+                          height: 150px;
+                          vertical-align: top;
+                        "
+                      >
+                        <h2 class="text-md font-bold mb-1">Remarks:</h2>
+                        <div
+                          style="
+                            white-space: pre-wrap;
+                            word-break: break-word;
+                            font-weight: normal;
+                            min-height: 80px;
+                          "
+                        >
+                          {{remark}}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

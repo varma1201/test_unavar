@@ -110,31 +110,33 @@ export const generateAuditReport = async (req, res) => {
       return res.status(404).json({ message: "Audit not found" });
     }
 
-    const approvarDetails = await User.find({
-      _id: auditDetails.approver,
-    }).select("userName signatureUrl roles");
-
-    if (!approvarDetails) {
-      return res.status(404).json({ message: "Approver not found" });
+    let approvarname = "N/A";
+    let approvarSign = "";
+    if (auditDetails.approver) {
+      const approvarDetails = await User.findById(auditDetails.approver).select("userName signatureUrl roles");
+      if (approvarDetails) {
+        approvarname = approvarDetails.userName || "N/A";
+        approvarSign = approvarDetails.signatureUrl || "";
+      }
     }
 
-    const approvarname = approvarDetails[0].userName;
-    const approvarSign = approvarDetails[0].signatureUrl;
-
-    const approvedStatus = auditDetails.statusHistory.find(
+    const approvedStatus = auditDetails.statusHistory?.find(
       (item) => item.status === "approved"
     );
 
     console.log(`${auditDetails}`.bgBlue.white);
     console.log(
-      `${approvarDetails}${approvarname}${approvarSign} approved date ${approvedStatus}`
+      `Approver: ${approvarname}, Sign: ${approvarSign}, approved date ${approvedStatus}`
         .bgGrey.white
     );
 
-    const userDetails = await User.find({ _id: auditDetails.user._id }).select(
-      "signatureUrl"
-    );
-    const userSign = userDetails[0].signatureUrl;
+    let userSign = "";
+    if (auditDetails.user && auditDetails.user._id) {
+      const userDetails = await User.findById(auditDetails.user._id).select("signatureUrl");
+      if (userDetails) {
+        userSign = userDetails.signatureUrl || "";
+      }
+    }
     // // const userSignature = await userDetails.signatureUrl;
     // console.log(`${userDetails} `.bgRed.white);
     // const raw = userDetails.signatureUrl || "";
@@ -620,7 +622,7 @@ export const generateAuditReport = async (req, res) => {
     browser = await launchBrowser();
 
     const page = await browser.newPage();
-    await page.setContent(htmlTemplate, { waitUntil: "domcontentloaded" });
+    await page.setContent(htmlTemplate, { waitUntil: "networkidle" });
 
     const pdfBuffer = await page.pdf({
       format: "A4",
