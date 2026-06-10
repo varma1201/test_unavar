@@ -368,7 +368,7 @@ export const generateProposal = async (req, res) => {
     browser = await launchBrowser();
 
     const page = await browser.newPage();
-    await page.setContent(dynamicContent, { waitUntil: "domcontentloaded" });
+    await page.setContent(dynamicContent, { waitUntil: "networkidle" });
 
     // Generate PDF
     const pdfBuffer = await page.pdf({
@@ -416,9 +416,9 @@ export const generateProposal = async (req, res) => {
     object-fit: contain;
   }
   .header-title {
-    font-family: 'Times New Roman', serif;
-    font-size: 17px;
+    font-family: 'Tinos', 'Times New Roman', serif;
     font-weight: bold;
+    font-size: 17px;
     color: #000;
     line-height: 1.1;
   }

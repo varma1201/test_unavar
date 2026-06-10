@@ -21,6 +21,18 @@ export const launchBrowser = async () => {
     if (typeof chromium.setGraphicsMode === "function") {
       chromium.setGraphicsMode(false);
     }
+    // Load custom fonts to make them available to Chromium
+    const fontDir = path.join(process.cwd(), "fonts");
+    try {
+      if (typeof chromium.font === "function") {
+        await chromium.font(path.join(fontDir, "Tinos-Regular.ttf"));
+        await chromium.font(path.join(fontDir, "Tinos-Bold.ttf"));
+        await chromium.font(path.join(fontDir, "Tinos-Italic.ttf"));
+        await chromium.font(path.join(fontDir, "Tinos-BoldItalic.ttf"));
+      }
+    } catch (e) {
+      console.error("Error loading custom fonts:", e);
+    }
   }
 
   return await playwright.launch({
