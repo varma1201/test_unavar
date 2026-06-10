@@ -2,7 +2,7 @@ import path from "path";
 import chromium from "@sparticuz/chromium";
 import { chromium as playwright } from "playwright-core";
 
-const isLocal = process.env.NODE_ENV !== "production";
+const isLocal = !process.env.VERCEL;
 
 export const launchBrowser = async () => {
   let localChromePath = "/usr/bin/google-chrome";
