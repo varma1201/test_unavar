@@ -1,3 +1,4 @@
+import "./preInit.js";
 import path from "path";
 import chromium from "@sparticuz/chromium";
 import { chromium as playwright } from "playwright-core";
