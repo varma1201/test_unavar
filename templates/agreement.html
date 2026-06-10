@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AUDIT.REC.AMT.02 - Audit Agreement</title>
+    <style>
+      /* ---------- GLOBAL RESET ---------- */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        font-size: 11pt;
+        line-height: 1.4;
+        color: #000000;
+        font-family: "Times New Roman", Times, serif;
+      }
+
+      /* ---------- PRINT RULES (A4 Document Format) ---------- */
+      @page {
+        size: A4;
+        margin: 30mm 15mm 20mm 15mm; /* ↑ top margin 30 mm */
+      }
+
+      /* ---------- DOCUMENT CONTAINER ---------- */
+      .container {
+        max-width: 210mm;
+        margin: 0 auto;
+        padding: 0;
+      }
+
+      /* ---------- TYPOGRAPHY ---------- */
+      .document-title {
+        font-size: 11pt;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px !important;
+        text-transform: uppercase;
+      }
+
+      .section-title {
+        font-size: 11pt;
+        font-weight: bold;
+        text-decoration: underline;
+        margin-top: 16px !important;
+        margin-bottom: 8px !important;
+      }
+
+      .clause-title {
+        font-size: 11pt;
+        font-weight: bold;
+        text-decoration: underline;
+        margin-top: 12px !important;
+        margin-bottom: 6px !important;
+      }
+
+      p {
+        margin-bottom: 8px !important;
+        text-align: justify;
+        line-height: 1.4;
+      }
+
+      /* ---------- LISTS ---------- */
+      ol.legal-numbered {
+        list-style-type: decimal;
+        margin-left: 20px !important; /* Changed from padding-left to margin-left */
+        margin-bottom: 12px !important;
+      }
+
+      ol.legal-numbered li {
+        margin-bottom: 12px !important;
+        text-align: justify;
+        padding-left: 8px !important; /* Keep small padding for list items */
+      }
+
+      ol.lower-alpha {
+        list-style-type: lower-alpha;
+        margin-left: 25px !important; /* Changed from padding-left to margin-left */
+        margin-bottom: 12px !important;
+      }
+
+      ol.lower-alpha li {
+        margin-bottom: 8px !important;
+        text-align: justify;
+        padding-left: 8px !important; /* Keep small padding for list items */
+      }
+
+      /* Ensure list numbers are visible */
+      ol {
+        list-style-position: outside !important;
+      }
+
+      li {
+        list-style-position: outside !important;
+      }
+
+      /* ---------- FILLABLE LINES ---------- */
+      /* .fillable-line {
+        border-bottom: 1px solid #000;
+        display: inline-block;
+        min-width: 80px;
+        padding: 0 4px;
+        height: 16px;
+        vertical-align: bottom;
+      } */
+
+      .fillable-line.medium {
+        min-width: 120px;
+      }
+
+      .fillable-line.long {
+        min-width: 200px;
+      }
+
+      .fillable-line.extra-long {
+        min-width: 300px;
+      }
+
+      /* ---------- SIGNATURE BLOCK ---------- */
+      .signature-block {
+        margin-top: 30px !important;
+      }
+
+      .signature-block table {
+        width: 100%;
+        margin-top: 40px !important;
+        border-collapse: collapse;
+      }
+
+      .signature-block td {
+        vertical-align: top;
+        width: 50%;
+      }
+
+      /*.party-column {*/
+      /*  padding-right: 30px !important;*/
+      /*}*/
+
+      /*.company-column {*/
+      /*  padding-left: 30px !important;*/
+      /*}*/
+
+      .signature-line {
+        margin-top: 40px !important;
+        border-top: 1px solid #000;
+        width: 200px;
+        height: 1px;
+      }
+
+      .signature-info {
+        margin-top: 5px !important;
+        font-size: 10pt;
+      }
+
+      /* ---------- PAGE BREAKS ---------- */
+      .page-break-before {
+        page-break-before: always;
+        margin-top: 30px !important;
+      }
+
+      /* ---------- BLOCKQUOTE STYLING (for  paragraphs) ---------- */
+      /* . {
+        margin-left: 20px !important;
+        margin-right: 20px !important;
+      } */
+
+      /* ---------- HEADINGS ---------- */
+      h2 {
+        font-size: 12pt;
+        font-weight: bold;
+        text-decoration: underline;
+        margin-top: 20px !important;
+        margin-bottom: 12px !important;
+        text-align: center;
+      }
+
+      h3 {
+        font-size: 11pt;
+        font-weight: bold;
+        text-decoration: underline;
+        margin-top: 16px !important;
+        margin-bottom: 8px !important;
+      }
+
+      /* ---------- BOLD TEXT ---------- */
+      b,
+      strong {
+        font-weight: bold;
+      }
+
+      /* ---------- MARKED TEXT (from Word document) ---------- */
+      .marked {
+        background-color: #ffff00;
+      }
+
+      .signature-image-placeholder {
+        border: 1px dashed #ccc;
+        padding: 20px;
+        margin: 10px 0;
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        font-style: italic;
+      }
+
+      .signature-image img {
+        max-height: 80px;
+        max-width: 200px;
+        display: block;
+        margin: 2rem 0 1rem 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="document-title">Agreement</h1>
+
+      <p class="">
+        This Services Agreement ("Agreement") is made on this day of
+        <span class="" style="text-decoration: underline">{{from_date}}</span>
+        by and between
+      </p>
+
+      <p class="" style="margin: 15px 0 !important">
+        <strong
+          >M/s. UNAVAR FOOD INSPECTION AND CERTIFICATION PRIVATE LIMITED</strong
+        ><br />
+        <strong
+          >("Inspection Body") with its principal place of business</strong
+        >
+        <strong>MM Illam, MKN road, Alandur, Chennai 600016</strong>
+        And:
+        <span class="" style="text-decoration: underline"
+          ><strong>{{fbo_name}}</strong></span
+        >, with respect to the
+        <strong>Food Safety inspection Services</strong> at the following
+        address:
+        <span class="" style="text-decoration: underline"
+          ><strong>{{address}}</strong></span
+        >
+        here in after referred to as COMPANY.<br />
+        WHEREBY IT IS AGREED AS FOLLOWS:
+      </p>
+
+      <ol class="legal-numbered">
+        <li>
+          <div class="section-title">Scope of Services</div>
+          <p class="">
+            Unavar Food Inspection and Certification Private Limited shall
+            provide services of
+            <span class="" style="text-decoration: underline; font-weight: bold"
+              >{{service}}</span
+            >
+            to the company which is made part of this agreement. Unavar Food
+            Inspection and Certification Private Limited will provide the
+            services using trained and qualified Inspection personnel only under
+            adequate supervision.
+            <span class=""
+              >Unavar Food Inspection and Certification Private Limited</span
+            >
+            warrants that it will perform the service in a good, prompt,
+            professional manner with reasonable care and in compliance with
+            auditing standard, accreditation and statutory requirements. The
+            services are undertaken with maximum safety precautions and to meet
+            highest standards of quality.
+          </p>
+        </li>
+
+        <li>
+          <div class="section-title">Term and Termination</div>
+          <p class="">
+            The parties may thereafter renew the term of this Agreement upon
+            mutual written agreement.
+            <strong>Company</strong> may terminate this Agreement at any time
+            during the term without any prior written notice without cause,
+            without any termination fee or any other cost, charge or expense of
+            any kind or nature. In the event either party breaches a provision
+            of this Agreement, the non-defaulting party may terminate this
+            Agreement with written notice. If the impartiality policy of the
+            auditing agency is compromised, then the agreement will be
+            terminated without prior notice. This right of termination is in
+            addition to whatever rights the non-defaulting party may have
+            herein, at law or in equity. The inspection body shall not provide
+            inspection services to the legal entity of which it is a part. If
+            the client is found to be part of the companies legal entity, it
+            will lead to the termination of the work.
+          </p>
+        </li>
+
+        <li>
+          <div class="section-title">
+            Fee for Services, Payment, Limitation of Liability
+          </div>
+          <p class="">
+            The Audit fees is decided as
+            <span class="" style="text-decoration: underline"
+              >{{total_cost}}</span
+            >
+            for per
+            <span class="" style="text-decoration: underline"
+              >{{no_of_outlets}}</span
+            >
+            outlet. This fee is decided on the acceptance of proposal/work order
+            issued by the client. The Inspection Body submits an invoice prior
+            to the service execution as per the agreed amount. The Inspection
+            Body agrees to provide GST invoice as per the government
+            requirements and the same will be filed in the GST portal. The
+            invoice will be paid by the
+            <strong>Company</strong> within 7 working days of receipt of the
+            invoice. The services are executed once the payment has been done.
+            If there is a delay in payment beyond 45 days from the date of
+            invoice, the Inspection Body will charge simple interest @24% on the
+            outstanding amount and the invoice shall be paid along with the
+            interest. The Inspection Body will re-submit a proposal for the
+            Inspection to be conducted as any proposal is valid only for 30 days
+            from the date it is created. Unavar Food Inspection and
+            Certification Private Limited agrees that it will be solely
+            responsible for the payment of all taxes related to the Services.
+            The company shall deduct TDS as per the legal norms.
+          </p>
+          <p class="">
+            The Audit scores or ratings will be provided as per actuals which
+            was observed at the time of Inspection and payment will not be kept
+            on hold irrespective of the ratings provided to the FBO. In
+            Impartiality risk assessment is carried out for such situation and
+            in case if there is such cases where release of payment will be done
+            on the basis of Inspection Results or Ratings Received, such Tenders
+            or Clients will not be taken for audit.
+          </p>
+        </li>
+
+        <li>
+          <div class="section-title">Governing Law Arbitration</div>
+          <p class="">
+            This Agreement shall be construed under and governed by the laws of
+            India. Notwithstanding anything to the contrary herein, either party
+            may seek injunctive or equitable relief (including, without
+            limitation, restraining orders and preliminary injunctions) in any
+            court of competent jurisdiction.
+          </p>
+        </li>
+
+        <li>
+          <div class="section-title">Impartiality</div>
+          <p class="">
+            <span class=""
+              >Unavar Food Inspection and Certification Private Limited</span
+            >
+            shall act impartially, and its policies and procedures for
+            certification of persons shall be fair among all FBO's and shall not
+            restrict certification on the grounds of undue financial or other
+            limiting conditions. The Inspection Body shall be responsible for
+            the impartiality of its certification and inspection activities and
+            shall not allow commercial, financial or other pressures to
+            compromise impartiality. The corporate policies and practices ensure
+            that the highest standards of integrity are applied to all
+            certification and inspection body activities. The management system
+            has the necessary procedures, safeguards and tools to ensure that
+            these policies are strictly upheld and enforced. The Audit service
+            will not affect the trade associate with the clients and the quality
+            of the audit will not be based on the trade associate with the
+            clients.
+          </p>
+        </li>
+
+        <li>
+          <div class="section-title">Confidentiality</div>
+          <p class="">
+            This Confidentiality Policy documents the confidentiality and non –
+            disclosure duties and obligations of the employees and personnel of
+            UNAVAR FOOD INSPECTION AND CERTIFICATION PRIVATE LIMITED. All
+            information received by or available to
+            <strong
+              >UNAVAR FOOD INSPECTION AND CERTIFICATION PRIVATE LIMITED</strong
+            >, staff, auditors, contractors or committee members (in whatever
+            format) received in conducting Inspection activities, or during
+            other certification activities, or during any dealings with an
+            organization for any other reason shall be regarded as strictly
+            confidential and shall not be divulged to any 3rd party without the
+            express permission of the organization or individual concerned. All
+            records will be retained in a secure manner, only accessible to
+            authorized staff via either paper records or password controlled
+            electronic records. Contractors will be limited to accessing
+            information produced by them in conducting an audit. Records will
+            only be made available to organizations who can demonstrate a
+            legitimate (and legal) right to view those records and specifically
+            to Accreditation Bodies. All staff, auditors, contractors, SME and
+            other members will be required to agree to
+            <strong
+              >UNAVAR FOOD INSPECTION AND CERTIFICATION PRIVATE LIMITED</strong
+            >, confidentiality policy and sign a confidentiality agreement.
+            Contractors will also sign an agreement which also contains the
+            responsibility to maintain confidentiality.
+          </p>
+        </li>
+      </ol>
+
+      <h2 style="text-align: left">GENERAL INSTRUCTIONS</h2>
+
+      <p class="">
+        On signing the above, the Company ensures the following in terms of the
+        Inspection execution:
+      </p>
+
+      <ol class="lower-alpha">
+        <li>
+          Makes all necessary arrangements for the conducting the Inspection
+          including providing documents to be audited, access to all processes
+          and areas, records and personnel for the audit.
+        </li>
+        <li>
+          Wherever necessary, permits the presence of QCI observers or trainee
+          auditor/assessors or shadow auditors to be a part of the Inspection
+          the accompanying auditor will be observing, witnessing and recording
+          the information, interviews and Inspection will be carried forward by
+          the lead auditor
+        </li>
+        <li>
+          Wherever necessary, permits the presence of other observers or trainee
+          auditor or shadow auditors to be a part of the Inspection from the
+          organization. The accompanying auditor will be observing, witnessing
+          and recording the information, interviews and Inspection will be
+          carried forward by the lead auditor.
+        </li>
+        <li>
+          Any misleading and unauthorized information given by FBO will lead to
+          lead to Legal Implications.
+        </li>
+        <li>
+          Inspection is executed as per the Inspection checklist and methodology
+          of FSSAI Third Party Inspection regulations 2018.
+        </li>
+        <li class="marked">
+          The FEs shall respond with corrective actions for the Major
+          non-conformances and with evidence of closure to the inspection body
+          within 24 hours of conducting the audits in case of major NCs and for
+          minor NC within 15 Days Corrective Actions Plan to be submitted. These
+          Corrective action or Closure evidence should be submitted by FE in
+          format provided by the inspection body.
+        </li>
+        <li class="marked">
+          Once Client NC report is shared by client and FE acknowledges the
+          Inspection Report, the inspection body shall upload the audit report,
+          with necessary evidences in FSSAI portal in case of FSSAI Third Party
+          audit – Inspection services else the report is shared only to the
+          Client.
+        </li>
+        <li>
+          Auditors Safety should be ensured in all condition during course of
+          audit by the FBO and there shouldn't be any situation which becomes a
+          threat to the safety of the auditor
+        </li>
+      </ol>
+
+      <!-- <div class="page-break-before"> -->
+      <h2 style="text-align: left">
+        GENERAL TERMS AND CONDITIONS OF THE AGREEMENT
+      </h2>
+
+      <h3 class="clause-title">ASSIGNMENT</h3>
+      <p class="">
+        <strong
+          >Unavar Food Inspection and Certification Private Limited</strong
+        >
+        will not assign this Agreement or any part hereof without the prior
+        written consent of <strong>Company</strong> Manager. The
+        <strong>Company</strong>
+        may assign this Agreement without the prior written consent of
+        Inspection Body. This Agreement shall inure to the benefit of the
+        parties and permitted successors and assigns.
+      </p>
+
+      <h3 class="clause-title">
+        LANGUAGE; ENTIRE AGREEMENT; AMENDMENT; WAIVER; PARTIAL INVALIDITY
+      </h3>
+      <p class="">
+        The parties acknowledge that this Agreement has been negotiated,
+        concluded, and executed in the English language. In the event a
+        translation is prepared of this Agreement in whole or in part for any
+        purpose, the parties agree that the English language version shall
+        control and be determinative as to the purpose and intent of any
+        provision of this Agreement.
+      </p>
+      <p class="">
+        This Agreement sets out the entire agreement between the parties with
+        respect to the subject matter herein and supersedes all prior agreements
+        and understandings, both oral and written, in connection with such
+        subject matter. No amendment to or modification of or waiver to this
+        Agreement shall be binding unless made in writing and signed by each of
+        the parties. The parties agree that execution by electronic signature
+        shall have the same force and effect as execution by manual signature.
+      </p>
+      <p class="">
+        Neither party's failure to insist on performance of any of the terms and
+        conditions herein, exercise any right or privilege granted hereunder or
+        enforce its rights in the event of a breach by the other party or any
+        course of dealing or performance shall constitute a waiver of any other
+        right or privilege, whether of the same or similar type.
+      </p>
+      <p class="">
+        If any part of this Agreement is determined to be invalid or illegal by
+        any court or agency of competent jurisdiction, then that part shall be
+        limited or curtailed to the extent necessary to make such provision
+        valid, and all other remaining terms of this Agreement shall remain in
+        full force and effect.
+      </p>
+      <br />
+
+      <h3 class="clause-title">NOTICES</h3>
+      <p class="">
+        Any notice under this Agreement shall be in writing, in English, and
+        delivered by personal delivery or international courier service with
+        package tracking capability and shall be deemed given upon personal
+        delivery or 3 working days after deposit with the courier service.
+        Notices shall be sent to each party's respective addresses as set out in
+        the Preamble to this Agreement, at the registered address of a party, or
+        such address as a party may notify to the other in writing. Typical
+        day-to day communications, including the placing of orders by
+        <strong>Company</strong>, and the sending of invoices by
+        <strong
+          >Unavar Food Inspection and Certification Private Limited,</strong
+        >
+        may be sent either by email or by hard copy; however, no notice of
+        breach or termination sent by either party by email will be considered
+        to be effective for any purpose under this Agreement.
+      </p>
+
+      <h3 class="clause-title">STATUS OF RELATIONSHIP : RIGHTS</h3>
+      <p class="">
+        <strong
+          >Unavar Food Inspection and Certification Private Limited,</strong
+        >
+        is an independent Body and all persons employed to furnish the Services
+        are employees of Inspection Body and not of
+        <strong>Company</strong>.
+        <strong
+          >Unavar Food Inspection and Certification Private Limited,</strong
+        >
+        solely responsible to comply with all applicable laws, including without
+        limitation, those laws affecting its employment status as an independent
+        Body providing Services to the <strong>Company</strong>. Neither party
+        nor its agents, employees or representatives shall have any authority to
+        bind the other in any contract with any third party. The parties agree
+        that, a person who is not a party to this Agreement shall not have any
+        rights to enforce any term of this Agreement.
+      </p>
+
+      <h3 class="clause-title">CONFIDENTIALITY</h3>
+      <p class="">
+        The terms of this Agreement are confidential, and
+        <strong
+          >Unavar Food Inspection and Certification Private Limited,</strong
+        >
+        and <strong>Company</strong> shall use reasonable efforts to ensure that
+        the terms/information/data are not disclosed to any third party without
+        the prior written consent of the other party, except that
+        <strong>Company</strong> is permitted to share this Agreement with the
+        owner of the <strong>Company</strong>.
+        <strong
+          >Unavar Food Inspection and Certification Private Limited</strong
+        >
+        and <strong>Company</strong> agree that neither will at any time
+        disclose to any person or use for its own benefit or the benefit of
+        anyone, the other party's Confidential Information without the prior
+        express written consent of the other party.
+        <strong
+          >Unavar Food Inspection and Certification Private Limited</strong
+        >
+        and <strong>Company</strong> shall ensure that all employees to whom the
+        other party's Confidential Information is disclosed take reasonable
+        precautions to safeguard the confidential status of the other party's
+        Confidential Information. "Confidential Information" shall mean any
+        non-public information of <strong>Company</strong> Manager or
+        <strong
+          >Unavar Food Inspection and Certification Private Limited</strong
+        >
+        that is designated as confidential or proprietary, that the other party
+        knew or reasonably should have known was confidential or proprietary, or
+        that derives independent value from not being generally known to the
+        public.
+      </p>
+
+      <h3 class="clause-title">HEADINGS; COUNTERPARTS</h3>
+      <p class="">
+        The headings used in this Agreement are inserted only as a matter of
+        convenience and for reference and in no way define, limit or describe
+        neither the scope of this Agreement nor the intent of any provision
+        thereof. This Agreement may be executed in any number of counterparts
+        and by facsimile, each of which, when executed and delivered, will be
+        deemed to be an original and all of which, when taken together, will be
+        deemed to be but one and the same agreement. The parties agree that
+        execution by electronic signature shall have the same force and effect
+        as execution by manual signature.
+      </p>
+
+      <h3 class="clause-title marked">COMPLAINTS AND APPEALS</h3>
+      <p class="marked">
+        The FE can raise audit and auditor relevant complaints and make appeal
+        against the audit findings, compliance and score to the Inspection body
+        by Mail at
+        <strong>
+          <a
+            href="mailto:admin@unavar.com"
+            style="color: blue; text-decoration: underline"
+          >
+            admin@unavar.com
+          </a>
+        </strong>
+        or through Feedback form which is shared in mail or in Physical hard
+        copy within 7 days of completion of Inspection. The Nature of Complaint
+        and Appeal will be reviewed by respective persons if the complaint/
+        appeal is found relevant necessary corrective actions will be taken and
+        the same will be reverted to the FE.
+      </p>
+
+      <div class="signature-block">
+        <p style="margin: 30px 0 !important">
+          IN WITNESS WHERE OF, the parties here to shall execute this Services
+          Agreement the day and year first above written.
+        </p>
+
+        <table>
+          <tr>
+            <td class="party-column">
+              <p>Signed for and on behalf of:</p>
+              <h3 style="margin: 10px 0 !important">
+                UNAVAR FOOD INSPECTION AND CERTIFICATION Private Limited
+                (Inspection Body)
+              </h3>
+              <!-- <div class="signature-line"></div> -->
+              <div class="signature-image">
+                <!-- Your actual base64 encoded signature image -->
+                <img
+                  src="data:image/png;base64,{{signatureImage}}"
+                  alt="Signature"
+                />
+              </div>
+              <p class="signature-info">Name: Vivekanand</p>
+              <p class="signature-info">Title: Executive Director</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="company-column">
+              <p>
+                Signed for and on behalf of ("The Company/ Company Owner") as
+                for
+                <span class=""><strong>{{fbo_name}}</strong></span>
+                with respect to the
+              </p>
+              <div class="signature-line"></div>
+              <p class="signature-info">
+                Name: <span class="fillable-line medium">&nbsp;</span>
+              </p>
+              <p class="signature-info">
+                Title: <span class="fillable-line medium">&nbsp;</span>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- </div> -->
+    </div>
+  </body>
+</html>

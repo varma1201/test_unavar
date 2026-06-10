@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Auto Break Quotation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
+  <style>
+    @page {
+      size: A4;
+    }
+
+    html {
+      -webkit-print-color-adjust: exact;
+    }
+
+    body {
+      font-family: "Times New Roman", Times, serif !important;
+      font-size: 14px !important;
+      background: none;
+      margin: 0;
+      padding: 10px 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .page {
+      position: relative;
+      page-break-after: always;
+      /* padding: 20px; */
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 800px;
+      z-index: 0;
+      background-image: url("data:image/png;base64,{{imageData}}");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      opacity: 0.1;
+      /* adjust if too strong */
+    }
+
+    .page-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 4px;
+      text-align: left;
+      font-size: 12px;
+    }
+
+    .selected-cell {
+      background-color: rgba(242, 242, 242, 0.5);
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      z-index: 1000;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+
+    table,
+    tr,
+    td {
+      page-break-inside: avoid !important;
+    }
+
+    .page-content {
+      page-break-inside: avoid !important;
+    }
+
+    .keep-with-next {
+      page-break-inside: avoid;
+      page-break-before: auto;
+      page-break-after: avoid;
+    }
+
+    .page-content,
+    table,
+    th,
+    td,
+    p,
+    li,
+    strong,
+    span,
+    ol {
+      font-family: "Times New Roman", Times, serif !important;
+      font-size: 14px !important;
+    }
+
+    h1 {
+      font-size: 18px !important;
+      /* Only title larger */
+      font-family: "Times New Roman", Times, serif !important;
+      font-weight: bolder !important;
+    }
+
+    h2 {
+      font-size: 16px !important;
+      font-family: "Times New Roman", Times, serif !important;
+    }
+
+    tr {
+      font-weight: normal !important;
+    }
+
+    .currency-cell {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER SVG (Fixed on top of every page) -->
+
+  <!-- <div class="absolute top-0 right-0">
+      <img src="data:image/png;base64,{{headerSvgData}}" alt="" />
+    </div> -->
+  <!-- FOOTER SVG (Fixed on bottom of every page) -->
+  <!-- <div class="absolute bottom-0 left-0 right-0">
+      <img
+        src="data:image/png;base64,{{footerSvgData}}"
+        class="w-full object-contain"
+        alt=""
+      />
+    </div> -->
+
+  <div class="page">
+    <div class="page-content" style="padding: 0 60px">
+      <!-- <div class="flex items-center border-b pb-2 mb-2">
+          <div>
+            <img
+              src="data:image/png;base64,{{imageData}}"
+              alt="Logo"
+              width="120"
+              height="120"
+            />
+          </div>
+          <div>
+            <h1 class="text-lg font-bold text-gray-800">
+              Unavar Food Inspection and Certification Private Limited
+            </h1>
+          </div>
+        </div> -->
+
+      <!-- Proposal Info -->
+      <table class="mb-4">
+        <tr>
+          <td colspan="2">
+            <strong>To</strong><br />
+            <strong>Client Name:</strong> {{fbo_name}}<br />
+            <!-- <strong>Client Mail ID:</strong> {{client_email}}<br /> -->
+            <strong>Contact Person Name:</strong> {{contact_person}}<br />
+            <strong>Contact Person Mobile Number:</strong>
+            {{contactPersonNumber}} / {{client_email}}<br />
+            <strong>Address:</strong> {{address}}<br />
+            <strong>Pin Code:</strong> {{pincode}}<br />
+            {{gstRow}}
+            <strong>Industry Vertical:</strong> {{vertical_of_industry}}
+          </td>
+          <td colspan="2">
+            <strong>Proposal No:</strong> {{proposalNumber}}<br />
+            <strong>Proposal Date:</strong> {{formattedDate}}<br />
+            <strong>Format No:</strong> AUDIT.REC.AMT.03<br />
+            <strong>Issue Date:</strong> 22.08.2022<br />
+            <strong>Version No:</strong> 1<br />
+            <strong>PO Number:</strong> {{po_number}}
+
+          </td>
+        </tr>
+      </table>
+
+      <!-- Outlet Table -->
+      <table class="mb-4">
+        <thead>
+          <tr>
+            <th>Outlet Name</th>
+            <th>Audit Criteria & Scope</th>
+            <th class="w-48">Man Day Criteria</th>
+            <th>Man Days</th>
+            <th>Qty</th>
+            <th>Unit Cost</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{outletRows}} {{financialRows}}
+          <tr>
+            <td colspan="6" class="text-right selected-cell font-medium">
+              <strong>Total</strong>
+            </td>
+            <td class="selected-cell text-center font-medium">
+              <strong>₹{{total}}</strong>
+            </td>
+          </tr>
+          {{tax}}
+          <tr>
+            <td colspan="6" class="text-right selected-cell font-medium">
+              <strong>Overall Total</strong>
+            </td>
+            <td class="selected-cell text-center font-medium">
+              <strong>₹{{overallTotal}}</strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Charges -->
+      <!-- <strong class="block my-2"
+          >Auditor Conveyance Charges:
+          <span style="font-weight: bold">
+            ₹{{auditor_convenience_fee}}
+          </span></strong
+        > -->
+      <table class="mb-4 w-3/4 mx-auto">
+        <tr>
+          <td><strong>Amount (without tax)</strong></td>
+          <td><strong>₹{{amountWithoutTax}}</strong></td>
+        </tr>
+        {{tax2}}
+        <tr>
+          <td><strong>Total Amount (With Tax)</strong></td>
+          <td><strong>₹{{totalAmountWithTax}}</strong></td>
+        </tr>
+      </table>
+
+      <!-- Notes -->
+      <div class="mb-4">
+        <strong>Note:</strong>
+        <ol class="list-decimal list-inside text-xs">
+          <li>
+            This proposal is valid for 30 days from the date of receipt.
+          </li>
+          <li>100% advance payment to be done for the project.</li>
+          <li>18% Taxes as applicable in state.</li>
+          <li>{{note}}</li>
+        </ol>
+      </div>
+
+      <!-- Payment & Bank -->
+      <div class="keep-with-next mb-4">
+        <div class="text-center mb-4">
+          <h2 class="font-bold text-sm mb-2">Address & Payment Details</h2>
+        </div>
+        <table class="w-full border">
+          <tr>
+            <td class="p-2 align-top">
+              <strong>Company Name:</strong> {{company_name}}<br />
+              <strong>Company Address:</strong><br />
+              Flat no: F1,First Floor,Door No:519,MM Illam,MKN Road,<br />Adambakkam
+              Village,Alandur,Chennai. Chennai- 600 016<br />
+              <strong>GST No:</strong> {{gstin}}<br />
+              <!-- <strong>Contact:</strong> {{contact_number}}<br /> -->
+              <!-- <strong>Email:</strong> {{email}} -->
+            </td>
+            <td class="p-2 align-top">
+              <strong>Bank Details:</strong><br />
+              <strong>Account Holder:</strong> {{account_holder_name}}<br />
+              <strong>Bank:</strong> {{bank_name}}<br />
+              <strong>Account No:</strong> {{account_number}}<br />
+              <strong>IFSC:</strong> {{ifsc_code}}<br />
+              <strong>MICR Code:</strong> {{micr_code}}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <!-- </div>
+
+    Final Page
+    <div class="page"> -->
+    <div class="page-content" style="padding: 0 60px">
+      <h2 class="text-center font-bold text-sm mb-2 mt-4">For Client</h2>
+      <p class="text-xs mb-4">
+        I hereby accept this offer letter and I commit myself to follow the
+        requirements established including payment of the licensee fee and the
+        terms and conditions of this proposal.
+      </p>
+
+      <div class="space-y-3">
+        <div class="flex items-center gap-2">
+          <span class="w-48 font-bold text-xs">CLIENT-REPRESENTATIVE:</span>
+          <div class="border-b border-gray-400 flex-grow"></div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-48 font-bold text-xs">DESIGNATION:</span>
+          <div class="border-b border-gray-400 flex-grow"></div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-48 font-bold text-xs">SIGNATURE:</span>
+          <div class="border-b border-gray-400 flex-grow"></div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-48 font-bold text-xs">DATE:</span>
+          <div class="border-b border-gray-400 flex-grow"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

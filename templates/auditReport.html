@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audit Report</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        position: relative;
+      }
+
+      .watermark {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        opacity: 0.1;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        pointer-events: none;
+      }
+      .watermark img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+
+      /* ADD THESE NEW STYLES */
+      .content-section {
+        padding: 20px 0;
+      }
+
+      .section-container {
+        margin: 24px 0;
+        padding: 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        background-color: #f9fafb;
+      }
+
+      .section-title {
+        font-size: 0.875rem;
+        font-weight: bold;
+        margin-bottom: 12px;
+        color: #1f2937;
+      }
+
+      @media print {
+        body {
+          width: 210mm;
+          height: 297mm;
+          margin: 0;
+          padding: 0;
+        }
+        .a4-page {
+          page-break-after: always;
+          height: 297mm;
+          width: 210mm;
+        }
+        .no-break {
+          page-break-inside: avoid;
+        }
+        /* Ensure padding works in print */
+        .content-section {
+          padding: 20px 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="text-gray-800">
+    <div class="watermark">
+      <img src="data:image/png;base64,{{imageData}}" alt="Watermark" />
+    </div>
+    <div class="flex p-2 header items-center border mb-4">
+      <div class="w-1/5">
+        <!-- Include this placeholder where you want the image to appear -->
+        <img
+          src="data:image/png;base64,{{imageData}}"
+          alt="Your Image Alt Text"
+          width="80"
+          height="80"
+        />
+      </div>
+      <div>
+        <h1 class="text-lg font-bold text-gray-800">
+          Unavar Food Inspection and Certification Private Limited
+        </h1>
+      </div>
+    </div>
+    <!-- A4 Page Wrapper -->
+    <div
+      class="a4-page max-w-5xl mx-auto mb-8 bg-white rounded-lg p-6 text-gray-800"
+    >
+      <!-- Header -->
+      <h1 class="text-lg font-bold uppercase text-center">Audit Report</h1>
+      <header class="border-b pb-4 mb-6">
+        <div class="flex justify-between items-start">
+          <!-- Client Information -->
+          <div class="mt-4 text-xs text-gray-700">
+            <p class="font-semibold uppercase mb-1">Client Information</p>
+            <p><span class="font-semibold">Name:</span> {{fbo_name}}</p>
+            <p><span class="font-semibold">Address:</span> {{fullAddress}}</p>
+            <p><span class="font-semibold">Auditor:</span> {{auditor_name}}</p>
+            <p><span class="font-semibold">Auditee:</span> {{auditee_name}}</p>
+            <p><span class="font-semibold">Audit Date:</span> {{audit_date}}</p>
+            <p>
+              <span class="font-semibold">FSSAI License No:</span>
+              {{fssai_number}}
+            </p>
+            <p>
+              <span class="font-semibold">Industry Vertical:</span>
+              {{vertical_of_industry}}
+            </p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-600">
+              <span class="font-semibold">Fostac Person:</span>
+              {{fostac_person}}
+            </p>
+            <p class="text-xs text-gray-600">
+              <span class="font-semibold">Fostac Certificate No:</span>
+              {{fostac_certificate_number}}
+            </p>
+            <p class="text-xs text-gray-600">
+              <span class="font-semibold"> Fostac validity: </span>
+              {{fostac_certificate_validity}}
+            </p>
+            <p class="text-xs text-gray-600">
+              <span class="font-semibold"> Issue Date: </span>
+              {{issueDate}}
+            </p>
+            <p class="text-xs text-gray-600">
+              <span class="font-semibold"> Version No: </span>
+              {{versionNumber}}
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-section py-4">
+        <!-- Audit Sections -->
+        <section class="mb-6 text-xs">{{AUDIT_SECTIONS}}</section>
+        <h1 class="text-xs font-semibold">Total Audit Score {{totalScore}}</h1>
+        <h1 class="text-xs font-semibold">
+          Total Audit Score Secured {{scoreSecured}}
+        </h1>
+        <!-- <div>{{TPA_INFO}}</div> -->
+
+        <div class="text-xs">{{GRADING_INFO}}</div>
+        <div>{{OverallFindings}}</div>
+        <div>{{SUGGESTIONS}}</div>
+
+        <div class="text-xs">{{PRODUCTS_INSPECTED}}</div>
+
+        <div class="text-xs">{{EQUIPMENT_USED}}</div>
+        {{APPROVAL}}
+      </div>
+      <!-- <img
+        src="{{userSign}}"
+        alt="Your Image Alt Text"
+        width="80"
+        height="80"
+      /> -->
+    </div>
+  </body>
+</html>

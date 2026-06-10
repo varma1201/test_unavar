@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit Report</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @media print {
+      body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+      }
+      .a4-page {
+        page-break-after: always;
+        height: 297mm;
+        width: 210mm;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Page 1 -->
+  <div class="a4-page max-w-5xl mx-auto my-10 bg-white shadow-md rounded-lg p-6">
+    <header class="border-b pb-4 mb-6">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Audit Report</h1>
+        <div>
+          <p class="text-sm text-gray-600">Issue Date: <span class="font-semibold">24.03.2023</span></p>
+          <p class="text-sm text-gray-600">Version No: <span class="font-semibold">2</span></p>
+        </div>
+      </div>
+      <div class="mt-4">
+        <p class="text-lg">Client Information:</p>
+        <p class="text-sm text-gray-700">
+          <span class="font-semibold">Name:</span> XYZ Corporation<br>
+          <span class="font-semibold">Address:</span> 123 Business Street, Cityville<br>
+          <span class="font-semibold">Auditor:</span> John Doe<br>
+          <span class="font-semibold">FSSAI License No:</span> 123456789<br>
+          <span class="font-semibold">Grade:</span> A<br>
+          <span class="font-semibold">Auditee Name:</span> Jane Smith
+        </p>
+      </div>
+    </header>
+
+    <!-- Section: General Requirements -->
+    <section class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">General Requirements</h2>
+      <table class="w-full text-sm border border-gray-300">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border px-4 py-2 text-left">S.No</th>
+            <th class="border px-4 py-2 text-left">Audit Question</th>
+            <th class="border px-4 py-2 text-left">Observations</th>
+            <th class="border px-4 py-2 text-center">Marks</th>
+            <th class="border px-4 py-2 text-center">Actual Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border px-4 py-2">1</td>
+            <td class="border px-4 py-2">The FSSAI license and Food Safety Display Board are prominently displayed.</td>
+            <td class="border px-4 py-2">Board is partially obscured.</td>
+            <td class="border px-4 py-2 text-center">2</td>
+            <td class="border px-4 py-2 text-center">1</td>
+          </tr>
+          <tr>
+            <td class="border px-4 py-2">2</td>
+            <td class="border px-4 py-2">The food premises design prevents pest entry.</td>
+            <td class="border px-4 py-2">Ventilation in some areas is insufficient.</td>
+            <td class="border px-4 py-2 text-center">2</td>
+            <td class="border px-4 py-2 text-center">1</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer class="text-center text-sm text-gray-600 mt-6">
+      Page 1 of 2
+    </footer>
+  </div>
+
+ 
+
+</body>
+</html>
