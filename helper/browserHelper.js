@@ -1,3 +1,4 @@
+import path from "path";
 import chromium from "@sparticuz/chromium";
 import { chromium as playwright } from "playwright-core";
 
@@ -14,6 +15,15 @@ export const launchBrowser = async () => {
   const executablePath = isLocal
     ? (process.env.CHROME_PATH || localChromePath)
     : await chromium.executablePath();
+
+  if (!isLocal) {
+    // Disable graphics mode in serverless environments to prevent crashes
+    if (typeof chromium.setGraphicsMode === "function") {
+      chromium.setGraphicsMode(false);
+    }
+    // Set library path to ensure system libraries resolve correctly
+    process.env.LD_LIBRARY_PATH = path.dirname(executablePath);
+  }
 
   return await playwright.launch({
     args: isLocal
