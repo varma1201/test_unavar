@@ -1,4 +1,3 @@
-import "./preInit.js";
 import path from "path";
 import chromium from "@sparticuz/chromium";
 import { chromium as playwright } from "playwright-core";
@@ -22,8 +21,6 @@ export const launchBrowser = async () => {
     if (typeof chromium.setGraphicsMode === "function") {
       chromium.setGraphicsMode(false);
     }
-    // Set library path to ensure system libraries resolve correctly
-    process.env.LD_LIBRARY_PATH = path.dirname(executablePath);
   }
 
   return await playwright.launch({
